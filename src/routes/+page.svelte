@@ -19,7 +19,7 @@
   const createFile = async () => {
     try {
       await writeFile(
-        { path: "./lib.json", contents: "{}" },
+        { path: "./lib.json", contents: "{ \"books\": [] }" },
         { dir: BaseDirectory.AppData }
       );
 
