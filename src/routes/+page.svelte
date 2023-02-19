@@ -16,14 +16,17 @@
 
   const createFile = async () => {
     try {
-      await writeFile({ path: "./lib.json", contents: "{}" }, { dir: BaseDirectory.AppData });
+      await writeFile(
+        { path: "./lib.json", contents: "{}" },
+        { dir: BaseDirectory.AppData }
+      );
+
+      data.libFileExistence = true;
+
+      await message("File created! Now add books to it.");
     } catch (error) {
       console.log(`Error creating file: ${error}`);
     }
-
-    data.libFileExistence = true;
-
-    await message("File created! Now add books to it.");
   };
 </script>
 
@@ -33,7 +36,7 @@
       <div class="actions">
         <h1>Actions</h1>
         {#if data.libFileExistence === false}
-          <button on:click="{createFile}">Create Library File</button>
+          <button on:click={createFile}>Create Library File</button>
         {:else}
           <button>Add</button>
         {/if}
