@@ -13,6 +13,15 @@
     "allowlist": {
       "dialog": {
         "message": true
+      },
+      "fs": {
+        "scope": ["$APPDATA/*"],
+        "readFile": true,
+        "writeFile": true,
+        "exists": true
+      },
+      "path": {
+        "all": true
       }
     },
     "bundle": {
