@@ -15,8 +15,9 @@
   <div class="container">
     <div class="sideInfo">
       <div class="actions">
-        <span id="actionsHeadingSpan"><h1>Actions</h1></span>
+        <h1>Actions</h1>
         <button>Add</button>
+        <p>Select a book to pick something to do with it.</p>
       </div>
     </div>
     <div class="books" />

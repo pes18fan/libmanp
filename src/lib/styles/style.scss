@@ -30,16 +30,7 @@ main {
       text-align: center;
       display: grid;
       grid-template-columns: 1, 1fr;
-
-      #actionsHeadingSpan {
-        text-align: left;
-      }
     }
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    margin: 10px;
-    padding: 10px;
   }
 
   button {
@@ -49,6 +40,7 @@ main {
     font-size: 20px;
     outline: none;
     border: 0 none;
+    cursor: pointer;
     padding: 10px;
     margin: 10px;
     border-radius: 5px;
