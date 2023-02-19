@@ -6,6 +6,7 @@
 
   export let data: PageData;
 
+  // listener to show info about the app when the About button in app menu is pressed
   listen("about", async () => {
     await message(`
     libmanp v0.1.0
@@ -14,6 +15,7 @@
     `);
   });
 
+  // attempts to create json file for storing book data if it does not exist
   const createFile = async () => {
     try {
       await writeFile(
@@ -35,6 +37,7 @@
     <div class="sideInfo">
       <div class="actions">
         <h1>Actions</h1>
+        <!-- if else block to show show different buttons depending on whether the lib.json file exists -->
         {#if data.libFileExistence === false}
           <button on:click={createFile}>Create Library File</button>
         {:else}

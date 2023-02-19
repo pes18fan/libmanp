@@ -24,6 +24,7 @@ pub fn create_menu() -> Menu {
 fn main() {
   tauri::Builder::default()
     .menu(create_menu())
+    // event handler for when the various menu buttons are pressed
     .on_menu_event(|event| match event.menu_item_id() {
       "quit" => {
         std::process::exit(0);
