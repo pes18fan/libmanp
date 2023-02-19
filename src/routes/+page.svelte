@@ -11,4 +11,14 @@
   });
 </script>
 
-<h1>Welcome to libmanp!</h1>
+<main>
+  <div class="container">
+    <div class="sideInfo">
+      <div class="actions">
+        <span id="actionsHeadingSpan"><h1>Actions</h1></span>
+        <button>Add</button>
+      </div>
+    </div>
+    <div class="books" />
+  </div>
+</main>

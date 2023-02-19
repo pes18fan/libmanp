@@ -14,11 +14,10 @@ fn greet(name: &str) -> String {
 pub fn create_menu() -> Menu {
   // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
   let quit = CustomMenuItem::new("quit".to_string(), "Quit");
-  let close = CustomMenuItem::new("close".to_string(), "Close");
 
   let about = CustomMenuItem::new("about".to_string(), "About");
 
-  let file = Submenu::new("File", Menu::new().add_item(quit).add_item(close));
+  let file = Submenu::new("File", Menu::new().add_item(quit));
   let help = Submenu::new("Help", Menu::new().add_item(about));
 
   Menu::new()
@@ -33,9 +32,6 @@ fn main() {
     .on_menu_event(|event| match event.menu_item_id() {
       "quit" => {
         std::process::exit(0);
-      }
-      "close" => {
-        event.window().close().unwrap();
       }
       "about" => {
         event.window().emit("about", "").unwrap();
