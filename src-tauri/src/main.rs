@@ -5,11 +5,6 @@
 
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-  format!("Hello, {}", name)
-}
-
 // creates the main menu
 pub fn create_menu() -> Menu {
   // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
@@ -38,7 +33,6 @@ fn main() {
       }
       _ => {}
     })
-    .invoke_handler(tauri::generate_handler![greet])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
