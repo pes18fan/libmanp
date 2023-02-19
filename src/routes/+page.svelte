@@ -21,6 +21,8 @@
       console.log(`Error creating file: ${error}`);
     }
 
+    data.libFileExistence = true;
+
     await message("File created! Now add books to it.");
   };
 </script>
