@@ -1,4 +1,4 @@
-@use "./global" as *; 
+@use "./global" as *;
 
 :root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -20,7 +20,8 @@ main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
-    .actions, .books {
+    .actions,
+    .books {
       border: 2px solid $secondary-color;
       border-radius: 5px;
       margin: 10px;
