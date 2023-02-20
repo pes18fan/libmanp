@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { message } from "@tauri-apps/api/dialog";
-  import { writeFile, BaseDirectory } from "@tauri-apps/api/fs";
-  import { listen } from "@tauri-apps/api/event";
-  import type { PageData } from "./$types";
+  import { message } from '@tauri-apps/api/dialog';
+  import { writeFile, BaseDirectory } from '@tauri-apps/api/fs';
+  import { listen } from '@tauri-apps/api/event';
+  import type { PageData } from './$types';
 
   export let data: PageData;
 
   // listener to show info about the app when the About button in app menu is pressed
-  listen("about", async () => {
+  listen('about', async () => {
     await message(`
     libmanp v0.1.0
     Written by pes18fan, 2023.
@@ -19,13 +19,13 @@
   const createFile = async () => {
     try {
       await writeFile(
-        { path: "./lib.json", contents: '{ "books": [] }' },
+        { path: './lib.json', contents: '{ "books": [] }' },
         { dir: BaseDirectory.AppData }
       );
 
       data.libFileExistence = true;
 
-      await message("File created! Now add books to it.");
+      await message('File created! Now add books to it.');
     } catch (error) {
       console.log(`Error creating file: ${error}`);
     }
