@@ -33,9 +33,9 @@
 </script>
 
 <main>
-  <div class="container">
-    <div class="sideInfo">
-      <div class="actions">
+  <div class='container'>
+    <div class='sideInfo'>
+      <div class='actions'>
         <h1>Actions</h1>
         <!-- if else block to show show different buttons depending on whether the lib.json file exists -->
         {#if data.libFileExistence === false}
@@ -46,6 +46,6 @@
         <p>Select a book to pick something to do with it.</p>
       </div>
     </div>
-    <div class="books" />
+    <div class='books' />
   </div>
 </main>
