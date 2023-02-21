@@ -3,6 +3,7 @@
   import { writeFile, BaseDirectory } from "@tauri-apps/api/fs";
   import { listen } from "@tauri-apps/api/event";
   import type { PageData } from "./$types";
+  import { addBookLA } from "./libActions";
 
   export let data: PageData;
 
@@ -23,11 +24,30 @@
         { dir: BaseDirectory.AppData }
       );
 
-      data.libFileExistence = true;
+      data.libData = '{ "books": [] }';
 
       await message("File created! Now add books to it.");
     } catch (error) {
       console.log(`Error creating file: ${error}`);
+      await message(`Error creating file: ${error}`);
+    }
+  };
+
+  // adds a new book
+  const addBook = async () => {
+    try {
+      const updatedData = addBookLA(data.libData);
+
+      await writeFile(
+        {
+          path: "lib.json",
+          contents: updatedData
+        },
+        { dir: BaseDirectory.AppData }
+      );
+    } catch (error) {
+      console.log(`Error adding book: ${error}`);
+      await message(`Error adding book: ${error}`);
     }
   };
 </script>
@@ -38,12 +58,13 @@
       <div class="actions">
         <h1>Actions</h1>
         <!-- if else block to show show different buttons depending on whether the lib.json file exists -->
-        {#if data.libFileExistence === false}
+        {#if data.libData === "N/A"}
           <button on:click={createFile}>Create Library File</button>
+          <p>Create a library file to start managing books.</p>
         {:else}
-          <button>Add</button>
+          <button on:click={addBook}>Add</button>
+          <p>Select a book to pick something to do with it.</p>
         {/if}
-        <p>Select a book to pick something to do with it.</p>
       </div>
     </div>
     <div class="books" />
