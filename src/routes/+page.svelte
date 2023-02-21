@@ -2,8 +2,13 @@
   import { message } from "@tauri-apps/api/dialog";
   import { writeFile, BaseDirectory } from "@tauri-apps/api/fs";
   import { listen } from "@tauri-apps/api/event";
+
   import type { PageData } from "./$types";
-  import { addBookLA } from "./libActions";
+
+  import { addBook } from "./bookActions";
+
+  import BookActions from "$lib/BookActions.svelte";
+  import Books from "$lib/Books.svelte";
 
   export let data: PageData;
 
@@ -17,7 +22,7 @@
   });
 
   // attempts to create json file for storing book data if it does not exist
-  const createFile = async () => {
+  const processCreatedLibFile = async () => {
     try {
       await writeFile(
         { path: "./lib.json", contents: '{ "books": [] }' },
@@ -33,10 +38,10 @@
     }
   };
 
-  // adds a new book
-  const addBook = async () => {
+  // adds a new book to the file
+  const processNewBook = async () => {
     try {
-      const updatedData = addBookLA(data.libData);
+      const updatedData = addBook(data.libData);
 
       await writeFile(
         {
@@ -55,18 +60,12 @@
 <main>
   <div class="container">
     <div class="sideInfo">
-      <div class="actions">
-        <h1>Actions</h1>
-        <!-- if else block to show show different buttons depending on whether the lib.json file exists -->
-        {#if data.libData === "N/A"}
-          <button on:click={createFile}>Create Library File</button>
-          <p>Create a library file to start managing books.</p>
-        {:else}
-          <button on:click={addBook}>Add</button>
-          <p>Select a book to pick something to do with it.</p>
-        {/if}
-      </div>
+      <BookActions
+        {processCreatedLibFile}
+        {processNewBook}
+        libData={data.libData}
+      />
     </div>
-    <div class="books" />
+    <Books />
   </div>
 </main>

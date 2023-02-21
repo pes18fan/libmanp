@@ -1,5 +1,6 @@
 // this file is for handling the various actions of book management, like adding and deleting them
-export function addBookLA(dataString: string) {
+// this function creates a new book in the json object of the book
+export function addBook(dataString: string) {
   const data: Library = JSON.parse(dataString);
 
   data.books = [
