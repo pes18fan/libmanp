@@ -19,19 +19,6 @@ main {
   .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-
-    .actions,
-    .books {
-      border: 2px solid $secondary-color;
-      border-radius: 5px;
-      margin: 10px;
-    }
-
-    .actions {
-      text-align: center;
-      display: grid;
-      grid-template-columns: 1, 1fr;
-    }
   }
 
   button {
