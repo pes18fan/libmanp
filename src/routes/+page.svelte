@@ -1,11 +1,9 @@
 <script lang="ts">
   import { message } from "@tauri-apps/api/dialog";
   import { writeFile, BaseDirectory } from "@tauri-apps/api/fs";
-  import { listen } from "@tauri-apps/api/event";
+  import { listen, emit } from "@tauri-apps/api/event";
 
   import type { PageData } from "./$types";
-
-  import { addBook } from "./bookActions";
 
   import BookActions from "$lib/BookActions.svelte";
   import Books from "$lib/Books.svelte";
@@ -25,11 +23,11 @@
   const processCreatedLibFile = async () => {
     try {
       await writeFile(
-        { path: "./lib.json", contents: '{ "books": [] }' },
+        { path: "./lib.json", contents: `{"books":[]}` },
         { dir: BaseDirectory.AppData }
       );
 
-      data.libData = '{ "books": [] }';
+      data.libData = `{"books":[]}`;
 
       await message("File created! Now add books to it.");
     } catch (error) {
@@ -39,21 +37,8 @@
   };
 
   // adds a new book to the file
-  const processNewBook = async () => {
-    try {
-      const updatedData = addBook(data.libData);
-
-      await writeFile(
-        {
-          path: "lib.json",
-          contents: updatedData
-        },
-        { dir: BaseDirectory.AppData }
-      );
-    } catch (error) {
-      console.log(`Error adding book: ${error}`);
-      await message(`Error adding book: ${error}`);
-    }
+  const processNewBook = () => {
+    emit("new-book", data.libData);
   };
 </script>
 

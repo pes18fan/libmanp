@@ -17,8 +17,6 @@
 </div>
 
 <style lang="scss">
-  @use "$lib/styles/global" as *;
-
   .actions {
     border: 2px solid $secondary-color;
     border-radius: 5px;
