@@ -1,5 +1,42 @@
 $primary-color: #161616;
-$accent-color: #505050cc;
-$accent-color-hover: #606060cc;
-$secondary-color: hsla(166, 80%, 30%, 0.8);
+$accent-color: #404040cc;
+$accent-color-hover: #505050cc;
+$secondary-color: #0f8a6dcc;
+$tertiary-color: #8a0f82cc;
 $text-color: #f2f2f2e6;
+
+@mixin inputStyles {
+    transition: all 100ms ease;
+    background: linear-gradient(45deg, $accent-color-hover, $secondary-color);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 100%;
+    width: 80%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 1rem;
+    resize: none;
+
+    &:focus-visible {
+        box-shadow: inset 2px 2px 6px #00000070;
+        outline: none;
+    }
+}
+
+@mixin buttonStyles {
+    transition: all 300ms ease;
+    background-color: $accent-color;
+    color: $text-color;
+    font-size: 20px;
+    outline: none;
+    border: 0 none;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: $accent-color-hover;
+    }
+}

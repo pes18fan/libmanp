@@ -16,25 +16,56 @@ body {
 main {
   text-align: center;
 
+  .addBookModal {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    padding: 10px;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    background-color: $primary-color;
+    text-align: center;
+    overflow: hidden;
+    vertical-align: middle;
+    z-index: 2;
+
+    h2 {
+      margin: 10px;
+      padding: 10px;
+    }
+
+    input {
+      @include inputStyles;
+    }
+
+    button {
+      @include buttonStyles;
+      width: 30%;
+    }
+  }
+
+  #overlay {
+    transition: all 300ms ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000a0; /* semi-transparent black */
+    z-index: 1;
+    transition: background-color 300ms ease-out;
+  }
+
   .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
 
   button {
-    transition: all 300ms ease;
-    background-color: $accent-color;
-    color: $text-color;
-    font-size: 20px;
-    outline: none;
-    border: 0 none;
-    cursor: pointer;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-
-    &:hover {
-      background-color: $accent-color-hover;
-    }
+    @include buttonStyles;
   }
 }
