@@ -94,7 +94,7 @@
     await message(`
     libmanp v0.1.0
     Written by pes18fan, 2023.
-    Licensed under the Unlicense.
+    Licensed under the GNU General Public License 3.0.
     `);
   });
 
