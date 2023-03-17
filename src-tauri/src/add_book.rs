@@ -1,5 +1,4 @@
 use serde::{Serialize, Deserialize};
-use serde_json::Result;
 use std::fs::write;
 
 #[derive(Serialize, Deserialize)]
@@ -13,7 +12,10 @@ struct Book {
     author: String
 }
 
-pub fn add_new_book(existing_json: &str, file_path: &str) -> Result<()> {
+type AddBookResult<T> = std::result::Result<T, tauri::InvokeError>;
+
+#[tauri::command]
+pub fn add_new_book(existing_json: &str, file_path: &str) -> AddBookResult<()> {
     // for some reason, the existing_json var ends up having extra backslashes and quotes and whatnot which mess it up and cause deserialization to fail
     // this line fixes that issue. thanks, ChatGPT!
     let existing_json = existing_json.replace("\\", "").replace("\"{", "{").replace("}\"", "}");
@@ -26,7 +28,7 @@ pub fn add_new_book(existing_json: &str, file_path: &str) -> Result<()> {
 
     let j = serde_json::to_string(&b).expect("Error converting struct to json");
 
-    println!("{}", file_path);
+    println!("successfully wrote {} to {}", j, file_path);
 
     write(file_path, j).expect("Failed to write file");
 
