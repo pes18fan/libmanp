@@ -5,7 +5,7 @@
 <div class="books">
   {#each bookList as book }
     <div class="book">
-      {book.name} by {book.author}
+      {book.title} by {book.author}
     </div>
   {/each}
 </div>

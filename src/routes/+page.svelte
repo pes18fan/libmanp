@@ -33,6 +33,7 @@
   // this data includes the lib.json file content loaded in every time the page reloads
   let existingJson = "";
   let bookList: Array<Book> = [];
+  let addBookForm: HTMLFormElement;
 
   /**
    * this functions runs as soon as the app begins
@@ -102,15 +103,20 @@
     $open = true;
   };
 
+  // sends the data for the new book to be added to the backend after the add button in the modal is pressed
   const processNewBook = async () => {
     $open = false;
+
+    const formData = new FormData(addBookForm);
+    console.log((Object.fromEntries(formData.entries())));
 
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
 
     invoke("add_new_book", {
       existingJson,
-      filePath: libraryPath
+      filePath: libraryPath,
+      bookData: Object.fromEntries(formData.entries())
     })
       .then(() => console.log("Book added successfully"))
       .catch((error) => console.error("Error adding book", error));
@@ -126,12 +132,12 @@
       class="addBookModal"
     >
       <h2 {...$titleAttrs}>Add a Book</h2>
-      <form class="addBookForm">
+      <form bind:this={addBookForm} class="addBookForm">
         <label for="title">Name:</label>
         <input type="text" name="title" id="title" />
         <br />
         <label for="author">Author:</label>
-        <input type="text" name="title" id="title" />
+        <input type="text" name="author" id="author" />
         <button on:click={processNewBook}>Add</button>
       </form>
     </div>
