@@ -13,6 +13,11 @@
   import { appDataDir } from "@tauri-apps/api/path";
 
   import { onMount } from "svelte";
+  import { writable, type Writable } from "svelte/store";
+
+  // components
+  import BookActions from "$lib/BookActions.svelte";
+  import Books from "$lib/Books.svelte";
 
   // for the modals
   import { createModal } from "@grail-ui/svelte";
@@ -25,10 +30,6 @@
   });
 
   $open = false;
-
-  // components
-  import BookActions from "$lib/BookActions.svelte";
-  import Books from "$lib/Books.svelte";
 
   // this data includes the lib.json file content loaded in every time the page reloads
   let existingJson = "";
@@ -83,11 +84,28 @@
       listen("file-change", () => {
         console.log("File watch event recieved!");
         fetchLib();
-      })
+      });
     } catch (error) {
       console.error(`Error while watching library file for changes: ${error}`);
     }
+
+    // to deselect a book in the UI
+    document.addEventListener("click", handleBookDeselect);
   });
+
+  const selectedBook: Writable<Book | undefined> = writable();
+
+  const handleBookSelect = (book: Book) => {
+    selectedBook.set(book);
+  }
+
+  const handleBookDeselect = (event: MouseEvent) => {
+    const clickedBook = (event.target as Element)?.closest(".book");
+
+    if (!clickedBook) {
+      selectedBook.set(undefined);
+    }
+  }
 
   // listener to show info about the app when the About button in app menu is pressed
   listen("about", async () => {
@@ -108,7 +126,7 @@
     $open = false;
 
     const formData = new FormData(addBookForm);
-    console.log((Object.fromEntries(formData.entries())));
+    console.log(Object.fromEntries(formData.entries()));
 
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
@@ -147,8 +165,8 @@
 
   <div class="container">
     <div class="sideInfo">
-      <BookActions {newBookInit} />
+      <BookActions {newBookInit} {selectedBook} />
     </div>
-    <Books {bookList} />
+    <Books {bookList} {handleBookSelect} />
   </div>
 </main>
