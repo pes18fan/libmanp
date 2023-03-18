@@ -1,10 +1,10 @@
 /// <reference types='@sveltejs/kit' />
 
-type Book = {
+interface Book {
   title: string;
   author: string;
 };
 
-type Library = {
+interface Library {
   books: Array<Book>;
 };

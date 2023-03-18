@@ -1,10 +1,16 @@
 <script lang="ts">
-  export let bookList: Array<Book>;
+  export let bookList: Array<Book> = [];
+  export let handleBookSelect: (book: Book) => void;
 </script>
 
 <div class="books">
-  {#each bookList as book }
-    <div class="book">
+  <h1>Books</h1>
+  {#each bookList as book}
+    <div
+      class="book"
+      on:click={() => handleBookSelect(book)}
+      on:keydown={() => handleBookSelect(book)}
+    >
       {book.title} by {book.author}
     </div>
   {/each}
