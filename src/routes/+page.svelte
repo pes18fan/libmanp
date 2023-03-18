@@ -97,7 +97,7 @@
 
   const handleBookSelect = (book: Book) => {
     selectedBook.set(book);
-  }
+  };
 
   const handleBookDeselect = (event: MouseEvent) => {
     const clickedBook = (event.target as Element)?.closest(".book");
@@ -105,7 +105,7 @@
     if (!clickedBook) {
       selectedBook.set(undefined);
     }
-  }
+  };
 
   // listener to show info about the app when the About button in app menu is pressed
   listen("about", async () => {
