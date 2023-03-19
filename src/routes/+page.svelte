@@ -116,8 +116,8 @@
     `);
   });
 
-  // adds a new book to the file
-  const newBookInit = () => {
+  // opens the book creation modal
+  const handleBookCreate = () => {
     $open = true;
   };
 
@@ -165,7 +165,7 @@
 
   <div class="container">
     <div class="sideInfo">
-      <BookActions {newBookInit} {selectedBook} />
+      <BookActions {handleBookCreate} {selectedBook} />
     </div>
     <Books {bookList} {handleBookSelect} />
   </div>
