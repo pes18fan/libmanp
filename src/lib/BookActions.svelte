@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
 
-  export let newBookInit: () => void;
+  export let handleBookCreate: () => void;
   export let selectedBook: Writable<Book | undefined>;
 
   $: selectedBookValue = $selectedBook;
@@ -10,7 +10,7 @@
 <div class="actions">
   <h1>Actions</h1>
   {#if selectedBookValue === undefined}
-    <button on:click={newBookInit}>Add</button>
+    <button on:click={handleBookCreate}>Add</button>
     <p>Select a book to pick something to do with it.</p>
   {:else}
     <h2>{selectedBookValue.title}</h2>
