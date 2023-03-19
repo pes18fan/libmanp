@@ -15,9 +15,10 @@
         "message": true
       },
       "fs": {
-        "scope": ["$APPDATA/*"],
+        "scope": ["$APPDATA/*", "$DATA/*"],
         "readFile": true,
         "writeFile": true,
+        "createDir": true,
         "exists": true
       },
       "path": {
@@ -55,6 +56,9 @@
         "webviewInstallMode": {
           "silent": true,
           "type": "embedBootstrapper"
+        },
+        "wix": {
+          "license": "../COPYING"
         },
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",

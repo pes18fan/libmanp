@@ -5,6 +5,7 @@
   import {
     writeFile,
     readTextFile,
+    createDir,
     exists,
     BaseDirectory
   } from "@tauri-apps/api/fs";
@@ -95,6 +96,10 @@
   };
 
   onMount(async () => {
+    if (await exists(await appDataDir()) === false) {
+      await createDir(await appDataDir());
+    }
+
     try {
       fetchLib();
 
