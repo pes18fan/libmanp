@@ -25,7 +25,7 @@
     border-radius: 5px;
     margin: 10px;
     text-align: center;
-    display: grid;
-    grid-template-columns: 1, 1fr;
+    display: flex;
+    flex-direction: column;
   }
 </style>
