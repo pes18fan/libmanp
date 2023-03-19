@@ -9,7 +9,7 @@ mod structs;
 mod edit_book;
 mod annihilate_book;
 
-use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
+use tauri::{CustomMenuItem, Menu, Submenu};
 
 use crate::add_book::add_book;
 use crate::edit_book::edit_book;
@@ -27,7 +27,6 @@ pub fn create_menu() -> Menu {
     let help = Submenu::new("Help", Menu::new().add_item(about));
 
     Menu::new()
-        .add_native_item(MenuItem::Copy)
         .add_submenu(file)
         .add_submenu(help)
 }

@@ -52,6 +52,10 @@
       "shortDescription": "A library manager.",
       "targets": "all",
       "windows": {
+        "webviewInstallMode": {
+          "silent": true,
+          "type": "embedBootstrapper"
+        },
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
         "timestampUrl": ""
