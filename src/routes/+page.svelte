@@ -96,7 +96,7 @@
   };
 
   onMount(async () => {
-    if (await exists(await appDataDir()) === false) {
+    if ((await exists(await appDataDir())) === false) {
       await createDir(await appDataDir());
     }
 
@@ -117,6 +117,11 @@
 
     // to deselect a book in the UI
     document.addEventListener("click", handleBookDeselect);
+
+    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+    let vh = window.innerHeight * 0.01;
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
   });
 
   const selectedBook: Writable<Book | undefined> = writable();
@@ -257,10 +262,20 @@
       <h2 {...$editBookTitleAttrs}>Edit {selectedBookValue?.title}</h2>
       <form bind:this={editBookForm} class="editBookForm">
         <label for="title">Name:</label>
-        <input type="text" name="title" value={selectedBookValue?.title} id="title" />
+        <input
+          type="text"
+          name="title"
+          value={selectedBookValue?.title}
+          id="title"
+        />
         <br />
         <label for="author">Author:</label>
-        <input type="text" name="author" value={selectedBookValue?.author} id="author" />
+        <input
+          type="text"
+          name="author"
+          value={selectedBookValue?.author}
+          id="author"
+        />
         <input type="hidden" name="uid" value={selectedBookValue?.uid} />
         <button type="submit" on:click={processEditBook}>Add</button>
       </form>
@@ -271,7 +286,12 @@
 
   <div class="container">
     <div class="sideInfo">
-      <BookActions {handleBookCreate} {handleBookEdit} {handleBookAnnihilate} {selectedBook} />
+      <BookActions
+        {handleBookCreate}
+        {handleBookEdit}
+        {handleBookAnnihilate}
+        {selectedBook}
+      />
     </div>
     <Books {bookList} {handleBookSelect} />
   </div>

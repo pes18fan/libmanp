@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   export let bookList: Array<Book> = [];
   export let handleBookSelect: (book: Book) => void;
 </script>
@@ -18,6 +20,7 @@
 
 <style lang="scss">
   .books {
+    overflow: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
