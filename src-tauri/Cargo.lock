@@ -1270,6 +1270,7 @@ name = "libmanp"
 version = "0.1.0"
 dependencies = [
  "lazy_static",
+ "nano-id",
  "notify",
  "notify-debouncer-mini",
  "serde",
@@ -1399,6 +1400,15 @@ dependencies = [
  "log",
  "wasi 0.11.0+wasi-snapshot-preview1",
  "windows-sys 0.45.0",
+]
+
+[[package]]
+name = "nano-id"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "60f4c6828407fd3f016473db04868be8b01ec90e7cdca96268ad8e514dccc9cc"
+dependencies = [
+ "getrandom 0.2.8",
 ]
 
 [[package]]

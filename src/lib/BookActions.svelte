@@ -2,6 +2,8 @@
   import type { Writable } from "svelte/store";
 
   export let handleBookCreate: () => void;
+  export let handleBookEdit: () => void;
+  export let handleBookAnnihilate: () => void;
   export let selectedBook: Writable<Book | undefined>;
 
   $: selectedBookValue = $selectedBook;
@@ -14,8 +16,8 @@
     <p>Select a book to pick something to do with it.</p>
   {:else}
     <h2>{selectedBookValue.title}</h2>
-    <button>Edit</button>
-    <button>Delete</button>
+    <button on:click={handleBookEdit}>Edit</button>
+    <button on:click={handleBookAnnihilate}>Delete</button>
   {/if}
 </div>
 

@@ -1,21 +1,12 @@
-use serde::{Deserialize, Serialize};
 use std::fs::write;
+use nano_id::base64;
 
-#[derive(Serialize, Deserialize)]
-struct Library {
-    books: Vec<Book>,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Book {
-    title: String,
-    author: String,
-}
+use crate::structs::{Book, Library};
 
 type AddBookResult<T> = std::result::Result<T, tauri::InvokeError>;
 
 #[tauri::command]
-pub fn add_new_book(existing_json: &str, file_path: &str, book_data: Book) -> AddBookResult<()> {
+pub fn add_book(existing_json: &str, file_path: &str, book_data: Book) -> AddBookResult<()> {
     // for some reason, the existing_json var ends up having extra backslashes and quotes and whatnot which mess it up and cause deserialization to fail
     // this line fixes that issue. thanks, ChatGPT!
     let existing_json = existing_json
@@ -27,6 +18,7 @@ pub fn add_new_book(existing_json: &str, file_path: &str, book_data: Book) -> Ad
     b.books.push(Book {
         title: book_data.title,
         author: book_data.author,
+        uid: base64::<24>()
     });
 
     let j = serde_json::to_string(&b).expect("Error converting struct to json");

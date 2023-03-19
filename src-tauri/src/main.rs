@@ -5,10 +5,15 @@
 
 mod add_book;
 mod watch;
+mod structs;
+mod edit_book;
+mod annihilate_book;
 
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 
-use crate::add_book::add_new_book;
+use crate::add_book::add_book;
+use crate::edit_book::edit_book;
+use crate::annihilate_book::annihilate_book;
 use crate::watch::watch;
 
 // creates the main menu
@@ -40,7 +45,7 @@ fn main() {
             }
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![add_new_book, watch])
+        .invoke_handler(tauri::generate_handler![add_book, edit_book, annihilate_book, watch])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

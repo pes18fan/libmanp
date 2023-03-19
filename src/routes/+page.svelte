@@ -13,7 +13,7 @@
   import { appDataDir } from "@tauri-apps/api/path";
 
   import { onMount } from "svelte";
-  import { writable, type Writable } from "svelte/store";
+  import { get, writable, type Writable } from "svelte/store";
 
   // components
   import BookActions from "$lib/BookActions.svelte";
@@ -23,18 +23,39 @@
   import { createModal } from "@grail-ui/svelte";
   import { scale } from "svelte/transition";
 
-  const { useModal, modalAttrs, titleAttrs, open } = createModal({
+  const {
+    useModal: useNewBookModal,
+    modalAttrs: newBookModalAttrs,
+    titleAttrs: newBookTitleAttrs,
+    open: newBookModalOpen
+  } = createModal({
     portal: null,
     dismissible: true,
     keyboardDismissible: true
   });
 
-  $open = false;
+  $newBookModalOpen = false;
+
+  const {
+    useModal: useEditBookModal,
+    modalAttrs: editBookModalAttrs,
+    titleAttrs: editBookTitleAttrs,
+    open: editBookModalOpen
+  } = createModal({
+    portal: null,
+    dismissible: true,
+    keyboardDismissible: true
+  });
+
+  $editBookModalOpen = false;
 
   // this data includes the lib.json file content loaded in every time the page reloads
   let existingJson = "";
   let bookList: Array<Book> = [];
+
+  // form elements for the various crud actions
   let addBookForm: HTMLFormElement;
+  let editBookForm: HTMLFormElement;
 
   /**
    * this functions runs as soon as the app begins
@@ -95,14 +116,18 @@
 
   const selectedBook: Writable<Book | undefined> = writable();
 
+  $: selectedBookValue = $selectedBook;
+
   const handleBookSelect = (book: Book) => {
     selectedBook.set(book);
   };
 
   const handleBookDeselect = (event: MouseEvent) => {
     const clickedBook = (event.target as Element)?.closest(".book");
+    const clickedModal = (event.target as Element)?.closest(".modal");
+    const clickedButton = (event.target as Element)?.closest("button");
 
-    if (!clickedBook) {
+    if (!clickedBook && !clickedModal && !clickedButton) {
       selectedBook.set(undefined);
     }
   };
@@ -118,12 +143,13 @@
 
   // opens the book creation modal
   const handleBookCreate = () => {
-    $open = true;
+    $newBookModalOpen = true;
   };
 
   // sends the data for the new book to be added to the backend after the add button in the modal is pressed
-  const processNewBook = async () => {
-    $open = false;
+  const processNewBook = async (event: Event) => {
+    event.preventDefault();
+    $newBookModalOpen = false;
 
     const formData = new FormData(addBookForm);
     console.log(Object.fromEntries(formData.entries()));
@@ -131,32 +157,107 @@
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
 
-    invoke("add_new_book", {
+    invoke("add_book", {
       existingJson,
       filePath: libraryPath,
       bookData: Object.fromEntries(formData.entries())
     })
-      .then(() => console.log("Book added successfully"))
-      .catch((error) => console.error("Error adding book", error));
+      .then(() => {
+        console.log("Book edited successfully!");
+        selectedBook.set(undefined);
+      })
+      .catch(async (error) => {
+        await message(`Error adding book: ${error}`, { type: "error" });
+      });
+  };
+
+  const handleBookEdit = () => {
+    $editBookModalOpen = true;
+  };
+
+  const processEditBook = async (event: Event) => {
+    event.preventDefault();
+    $editBookModalOpen = false;
+
+    const formData = new FormData(editBookForm);
+    console.log(Object.fromEntries(formData.entries()));
+
+    const appDataDirPath = await appDataDir();
+    const libraryPath = appDataDirPath.concat("lib.json");
+
+    invoke("edit_book", {
+      existingJson,
+      filePath: libraryPath,
+      oldBookData: selectedBookValue!,
+      newBookData: Object.fromEntries(formData.entries())
+    })
+      .then(() => {
+        console.log("Book edited successfully!");
+        selectedBook.set(undefined);
+      })
+      .catch(async (error) => {
+        await message(`Error editing book: ${error}`, { type: "error" });
+      });
+  };
+
+  const handleBookAnnihilate = async () => {
+    const appDataDirPath = await appDataDir();
+    const libraryPath = appDataDirPath.concat("lib.json");
+
+    invoke("annihilate_book", {
+      existingJson,
+      filePath: libraryPath,
+      bookData: selectedBookValue!
+    })
+      .then(() => {
+        console.log("Book deleted successfully!");
+        selectedBook.set(undefined);
+      })
+      .catch(async (error) => {
+        await message(`Error adding book: ${error}`, { type: "error" });
+      });
   };
 </script>
 
 <main>
-  {#if $open}
+  {#if $newBookModalOpen}
     <div
-      use:useModal
+      use:useNewBookModal
       transition:scale={{ duration: 300 }}
-      {...$modalAttrs}
-      class="addBookModal"
+      {...$newBookModalAttrs}
+      class="modal"
     >
-      <h2 {...$titleAttrs}>Add a Book</h2>
+      <h2 {...$newBookTitleAttrs}>Add a Book</h2>
       <form bind:this={addBookForm} class="addBookForm">
         <label for="title">Name:</label>
         <input type="text" name="title" id="title" />
         <br />
         <label for="author">Author:</label>
         <input type="text" name="author" id="author" />
-        <button on:click={processNewBook}>Add</button>
+        <input type="hidden" name="uid" value="#" />
+        <button type="submit" on:click={processNewBook}>Add</button>
+      </form>
+    </div>
+
+    <div id="overlay" />
+  {/if}
+
+  {#if $editBookModalOpen}
+    <div
+      use:useEditBookModal
+      transition:scale={{ duration: 300 }}
+      {...$editBookModalAttrs}
+      class="modal"
+    >
+      <h2 {...$editBookTitleAttrs}>Edit {selectedBookValue?.title}</h2>
+      <form bind:this={editBookForm} class="editBookForm">
+        <label for="title">Name:</label>
+        <input type="text" name="title" value={selectedBookValue?.title} id="title" />
+        <br />
+        <label for="author">Author:</label>
+        <input type="text" name="author" value={selectedBookValue?.author} id="author" />
+        <input type="hidden" name="uid" value={selectedBookValue?.uid} />
+        <button type="submit" on:click={processEditBook}>Add</button>
       </form>
     </div>
 
@@ -165,7 +266,7 @@
 
   <div class="container">
     <div class="sideInfo">
-      <BookActions {handleBookCreate} {selectedBook} />
+      <BookActions {handleBookCreate} {handleBookEdit} {handleBookAnnihilate} {selectedBook} />
     </div>
     <Books {bookList} {handleBookSelect} />
   </div>
