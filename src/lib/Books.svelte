@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
   export let bookList: Array<Book> = [];
   export let handleBookSelect: (book: Book) => void;
 </script>

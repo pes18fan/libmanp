@@ -23,11 +23,13 @@
 
 <style lang="scss">
   .actions {
+    overflow: auto;
     border: 2px solid $secondary-color;
     border-radius: 5px;
     margin: 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
+    max-height: 50%;
   }
 </style>

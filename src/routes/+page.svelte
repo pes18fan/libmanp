@@ -19,6 +19,7 @@
   // components
   import BookActions from "$lib/BookActions.svelte";
   import Books from "$lib/Books.svelte";
+  import Groups from "$lib/Groups.svelte";
 
   // for the modals
   import { createModal } from "@grail-ui/svelte";
@@ -115,10 +116,6 @@
       console.error(`Error while watching library file for changes: ${error}`);
     }
 
-    // to deselect a book in the UI
-    document.addEventListener("click", handleBookDeselect);
-
-    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
     let vh = window.innerHeight * 0.01;
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty("--vh", `${vh}px`);
@@ -229,6 +226,11 @@
   };
 </script>
 
+<!-- to deselect a book in the UI -->
+<svelte:body
+  on:click={handleBookDeselect}
+/>
+
 <main>
   {#if $newBookModalOpen}
     <div
@@ -292,6 +294,7 @@
         {handleBookAnnihilate}
         {selectedBook}
       />
+      <Groups />
     </div>
     <Books {bookList} {handleBookSelect} />
   </div>

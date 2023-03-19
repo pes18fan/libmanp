@@ -61,7 +61,7 @@ main {
   }
 
   .container {
-    height: calc(var(--vh, 1vh) * 98);
+    height: calc(var(--vh, 1vh) * 97);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
