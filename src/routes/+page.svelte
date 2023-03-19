@@ -13,7 +13,7 @@
   import { appDataDir } from "@tauri-apps/api/path";
 
   import { onMount } from "svelte";
-  import { get, writable, type Writable } from "svelte/store";
+  import { writable, type Writable } from "svelte/store";
 
   // components
   import BookActions from "$lib/BookActions.svelte";
@@ -73,7 +73,7 @@
       if (fileData === `{"books":[]}`) {
         try {
           await writeFile(
-            { path: "./lib.json", contents: fileData },
+            { path: "lib.json", contents: fileData },
             { dir: BaseDirectory.AppData }
           );
 
