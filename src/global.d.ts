@@ -3,6 +3,7 @@
 interface Book {
   title: string;
   author: string;
+  readonly uid: string;
 }
 
 interface Library {
