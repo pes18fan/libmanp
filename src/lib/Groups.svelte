@@ -10,5 +10,11 @@
     border: 2px solid $secondary-color;
     border-radius: 5px;
     margin: 10px;
+    padding: 10px;
+
+    h1, p {
+      padding: 10px;
+      margin: 10px;
+    }
   }
 </style>

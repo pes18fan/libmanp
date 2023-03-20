@@ -27,9 +27,14 @@
     border: 2px solid $secondary-color;
     border-radius: 5px;
     margin: 10px;
+    padding: 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
     max-height: 50%;
+
+    h1, h2, p {
+      margin: 10px;
+    }
   }
 </style>
