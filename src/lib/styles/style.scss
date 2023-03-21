@@ -8,6 +8,12 @@
   box-sizing: border-box;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: $primary-color;
   color: $text-color;
@@ -55,12 +61,13 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #000000a0; /* semi-transparent black */
+    background-color: #000000a0;
     z-index: 1;
     transition: background-color 300ms ease-out;
   }
 
   .container {
+    margin: 10px;
     height: calc(var(--vh, 1vh) * 97);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
