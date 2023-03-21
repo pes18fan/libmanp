@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
+
   export let bookList: Array<Book> = [];
   export let handleBookSelect: (book: Book) => void;
 
@@ -8,14 +11,14 @@
   const searchBooks = () => {
     if (bookList.length === 0) return;
 
-    const filter = searchBox.value.toUpperCase();
     const bookElements = bookListElement.getElementsByTagName("li");
+    const filter = searchBox.value.toUpperCase();
 
     for (let i = 0; i < bookElements.length; i++) {
       let currentBookDiv = bookElements[i].getElementsByTagName("div")[0];
 
       if (currentBookDiv.innerHTML !== "") {
-        if (currentBookDiv.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        if (currentBookDiv.textContent!.toUpperCase().indexOf(filter) > -1) {
           bookElements[i].style.display = "";
         } else {
           bookElements[i].style.display = "none";
@@ -31,14 +34,12 @@
     <input
       bind:this={searchBox}
       placeholder="Look for a book..."
-      on:keypress={searchBooks}
+      on:keyup={searchBooks}
     />
     <ul bind:this={bookListElement}>
       {#each bookList as book}
         <li>
           <div
-            data-title={book.title}
-            data-author={book.author}
             class="book"
             on:click={() => handleBookSelect(book)}
             on:keydown={() => handleBookSelect(book)}
