@@ -40,7 +40,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.pes18fan.libmanp",
+      "identifier": "io.github.libmanp",
       "longDescription": "libmanp is an app for managing libraries or your own personal book collection.",
       "macOS": {
         "entitlements": null,
