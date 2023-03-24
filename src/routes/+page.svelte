@@ -205,7 +205,7 @@
       existingJson,
       filePath: libraryPath,
       oldBookData: selectedBookValue!,
-      newBookData: Object.fromEntries(formData.entries())
+      newBookData
     })
       .then(() => {
         console.log("Book edited successfully!");
