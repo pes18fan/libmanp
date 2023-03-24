@@ -44,6 +44,8 @@
           {book.title}
             <br />
             <span class="label">Author: </span>{book.author}
+            <br />
+            <span class="label">Added: </span>{new Date(book.date_added).toLocaleDateString()}
           </div>
         </li>
       {/each}

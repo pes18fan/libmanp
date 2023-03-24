@@ -18,7 +18,8 @@ pub fn add_book(existing_json: &str, file_path: &str, book_data: Book) -> AddBoo
     b.books.push(Book {
         title: book_data.title,
         author: book_data.author,
-        uid: base64::<24>()
+        uid: base64::<24>(),
+        date_added: book_data.date_added
     });
 
     let j = serde_json::to_string(&b).expect("Error converting struct to json");

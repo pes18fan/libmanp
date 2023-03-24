@@ -159,7 +159,11 @@
     $newBookModalOpen = false;
 
     const formData = new FormData(addBookForm);
-    console.log(Object.fromEntries(formData.entries()));
+    const bookData = {
+      ...Object.fromEntries(formData.entries()),
+      date_added: new Date().toISOString()
+    };
+    console.log(bookData);
 
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
@@ -167,7 +171,7 @@
     invoke("add_book", {
       existingJson,
       filePath: libraryPath,
-      bookData: Object.fromEntries(formData.entries())
+      bookData
     })
       .then(() => {
         console.log("Book edited successfully!");
@@ -187,7 +191,6 @@
     $editBookModalOpen = false;
 
     const formData = new FormData(editBookForm);
-    console.log(Object.fromEntries(formData.entries()));
 
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
@@ -227,9 +230,7 @@
 </script>
 
 <!-- to deselect a book in the UI -->
-<svelte:body
-  on:click={handleBookDeselect}
-/>
+<svelte:body on:click={handleBookDeselect} />
 
 <main>
   {#if $newBookModalOpen}
@@ -279,6 +280,7 @@
           id="author"
         />
         <input type="hidden" name="uid" value={selectedBookValue?.uid} />
+        <input type="hidden" name="date_added" value={new Date().toISOString()} />
         <button type="submit" on:click={processEditBook}>Add</button>
       </form>
     </div>
