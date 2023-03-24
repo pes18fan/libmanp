@@ -6,7 +6,13 @@ Currently still under development. First release will come out after currently o
 
 # Development
 
-libmanp is built with Tauri. Follow [these instructions](https://tauri.app/v1/guides/getting-started/prerequisites/) to install the prerequisites for Tauri on your system. You also need [Nodejs](https://nodejs.dev) and [yarn](https://yarnpkg.com).
+libmanp is built with Tauri. Follow [these instructions](https://tauri.app/v1/guides/getting-started/prerequisites/) to install the prerequisites for Tauri on your system, which includes Rust. You also need [Nodejs](https://nodejs.dev) and [yarn](https://yarnpkg.com).
+
+Install the Tauri CLI:
+
+```bash
+cargo install tauri-cli
+```
 
 After installing everything, use these commands to set up a dev environment:
 
