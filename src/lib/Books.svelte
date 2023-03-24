@@ -41,7 +41,9 @@
             on:click={() => handleBookSelect(book)}
             on:keydown={() => handleBookSelect(book)}
           >
-            {book.title} by {book.author}
+          {book.title}
+            <br />
+            <span class="label">Author: </span>{book.author}
           </div>
         </li>
       {/each}
@@ -57,11 +59,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid $secondary-color;
+    border: 2px solid $accent-color;
     border-radius: 5px;
     margin: 10px;
 
-    h1, p {
+    h1,
+    p {
       margin: 10px;
     }
 
@@ -76,13 +79,19 @@
 
       .book {
         transition: all 300ms ease;
-        background-color: $accent-color;
+        background-color: $secondary-color;
         border-radius: 5px;
         margin: 10px;
         padding: 10px;
+        text-align: justify;
+        letter-spacing: 1px;
 
         &:hover {
-          background-color: $accent-color-hover;
+          background-color: $secondary-color-hover;
+        }
+
+        .label {
+          color: $accent-color;
         }
       }
     }

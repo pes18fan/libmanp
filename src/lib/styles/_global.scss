@@ -1,13 +1,13 @@
 $primary-color: #161616;
-$accent-color: #404040cc;
-$accent-color-hover: #505050cc;
-$secondary-color: #0f8a6dcc;
+$secondary-color: #404040cc;
+$secondary-color-hover: #505050cc;
+$accent-color: #0f8a6dcc;
 $tertiary-color: #8a0f82cc;
 $text-color: #f2f2f2e6;
 
 @mixin inputStyles {
   transition: all 100ms ease;
-  background: linear-gradient(45deg, $accent-color-hover, $secondary-color);
+  background: linear-gradient(45deg, $secondary-color-hover, $accent-color);
   border: 1px solid transparent;
   border-radius: 10px;
   text-align: center;
@@ -27,7 +27,7 @@ $text-color: #f2f2f2e6;
 
 @mixin buttonStyles {
   transition: all 300ms ease;
-  background-color: $accent-color;
+  background-color: $secondary-color;
   color: $text-color;
   font-size: 20px;
   outline: none;
@@ -38,6 +38,6 @@ $text-color: #f2f2f2e6;
   border-radius: 5px;
 
   &:hover {
-    background-color: $accent-color-hover;
+    background-color: $secondary-color-hover;
   }
 }
