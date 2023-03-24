@@ -148,13 +148,18 @@
   const processNewBook = async (event: Event) => {
     event.preventDefault();
 
-    $newBookModalOpen = false;
-
     const formData = new FormData(addBookForm);
     const bookData = {
       ...Object.fromEntries(formData.entries()),
       date_added: new Date().toISOString()
-    };
+    } as Book;
+
+    if (bookData.title === "" || bookData.author === "") {
+      message("title and/or author must not be empty!", { type: "error" });
+      return;
+    }
+
+    $newBookModalOpen = false;
 
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
@@ -179,9 +184,19 @@
 
   const processEditBook = async (event: Event) => {
     event.preventDefault();
-    $editBookModalOpen = false;
 
     const formData = new FormData(editBookForm);
+    const newBookData = {
+      ...Object.fromEntries(formData.entries()),
+      date_added: new Date().toISOString()
+    } as Book;
+
+    if (newBookData.title === "" || newBookData.author === "") {
+      message("title and/or author must not be empty!", { type: "error" });
+      return;
+    }
+
+    $editBookModalOpen = false;
 
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
@@ -271,7 +286,6 @@
           id="author"
         />
         <input type="hidden" name="uid" value={selectedBookValue?.uid} />
-        <input type="hidden" name="date_added" value={new Date().toISOString()} />
         <button type="submit" on:click={processEditBook}>Add</button>
       </form>
     </div>
