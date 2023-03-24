@@ -139,15 +139,6 @@
     }
   };
 
-  // listener to show info about the app when the About button in app menu is pressed
-  listen("about", async () => {
-    await message(`
-    libmanp v0.1.0
-    Written by pes18fan, 2023.
-    Licensed under the GNU General Public License 3.0.
-    `);
-  });
-
   // opens the book creation modal
   const handleBookCreate = () => {
     $newBookModalOpen = true;
@@ -156,6 +147,7 @@
   // sends the data for the new book to be added to the backend after the add button in the modal is pressed
   const processNewBook = async (event: Event) => {
     event.preventDefault();
+
     $newBookModalOpen = false;
 
     const formData = new FormData(addBookForm);
@@ -163,7 +155,6 @@
       ...Object.fromEntries(formData.entries()),
       date_added: new Date().toISOString()
     };
-    console.log(bookData);
 
     const appDataDirPath = await appDataDir();
     const libraryPath = appDataDirPath.concat("lib.json");
@@ -243,10 +234,10 @@
       <h2 {...$newBookTitleAttrs}>Add a Book</h2>
       <form bind:this={addBookForm} class="addBookForm">
         <label for="title">Name:</label>
-        <input type="text" name="title" id="title" />
+        <input type="text" name="title" id="title" required />
         <br />
         <label for="author">Author:</label>
-        <input type="text" name="author" id="author" />
+        <input type="text" name="author" id="author" required />
         <input type="hidden" name="uid" value="#" />
         <button type="submit" on:click={processNewBook}>Add</button>
       </form>

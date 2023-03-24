@@ -10,6 +10,7 @@ mod edit_book;
 mod annihilate_book;
 
 use tauri::{CustomMenuItem, Menu, Submenu};
+use tauri::api::dialog::message;
 
 use crate::add_book::add_book;
 use crate::edit_book::edit_book;
@@ -40,7 +41,7 @@ fn main() {
                 std::process::exit(0);
             }
             "about" => {
-                event.window().emit("about", "").unwrap();
+                message(Some(event.window()), "libmanp", "libmanp v0.1.0\nWritten by pes18fan, 2023.\nLicensed under the GNU General Public License 3.0.")
             }
             _ => {}
         })
