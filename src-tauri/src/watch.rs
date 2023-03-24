@@ -56,6 +56,7 @@ pub fn watch(window: Window, file_path: String) {
                 .watcher()
                 .watch(Path::new(&file_path), RecursiveMode::Recursive)
                 .expect("Error while watching file");
+            thread::sleep(Duration::from_millis(300));
         });
 
         let (sender, _) = channel();
