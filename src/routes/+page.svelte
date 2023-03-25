@@ -230,7 +230,7 @@
         selectedBook.set(undefined);
       })
       .catch(async (error) => {
-        await message(`Error adding book: ${error}`, { type: "error" });
+        await message(`Error deleting book: ${error}`, { type: "error" });
       });
   };
 </script>
