@@ -1,12 +1,18 @@
 <script lang="ts">
   import { useClickOutside } from "@grail-ui/svelte";
   import { createMenu } from "@grail-ui/svelte";
+
   import type { Writable } from "svelte/store";
   import { fade } from "svelte/transition";
+
+  import * as util from "./bookUtilFunctions";
 
   export let bookList: Array<Book> = [];
   export let handleBookSelect: (book: Book) => void;
   export let selectedBook: Writable<Book | undefined>;
+
+  let searchBox: HTMLInputElement;
+  let bookListElement: HTMLUListElement;
 
   const sortOptions = [
     { id: "alphabeticallyTitle", label: "Alphabetically (Title)" },
@@ -14,114 +20,31 @@
   ];
 
   // for the sort menu
-  const { useTrigger, triggerAttrs, useMenu, menuAttrs, itemAttrs, open } =
-    createMenu({
-      positioning: {
-        strategy: "fixed",
-        placement: "bottom"
-      },
-      onSelect(id) {
-        $open = false;
+  const {
+    useTrigger,
+    triggerAttrs: menuTriggerAttrs,
+    useMenu,
+    menuAttrs,
+    itemAttrs: menuItemAttrs,
+    open
+  } = createMenu({
+    positioning: {
+      strategy: "fixed",
+      placement: "bottom"
+    },
+    onSelect(id) {
+      $open = false;
 
-        switch (id) {
-          case "alphabeticallyTitle":
-            sortBooksAlphabeticallyAscendingTitle();
-            break;
-          case "alphabeticallyAuthor":
-            sortBooksAlphabeticallyAscendingAuthor();
-            break;
-        }
-      }
-    });
-
-  let searchBox: HTMLInputElement;
-  let bookListElement: HTMLUListElement;
-
-  // function to search through the book list
-  const searchBooks = () => {
-    if (bookList.length === 0) return;
-
-    const bookElements = bookListElement.getElementsByTagName("li");
-    const filter = searchBox.value.toUpperCase();
-
-    for (let i = 0; i < bookElements.length; i++) {
-      let currentBookDiv = bookElements[i].getElementsByTagName("div")[0];
-
-      if (currentBookDiv.innerHTML !== "") {
-        if (currentBookDiv.textContent!.toUpperCase().indexOf(filter) > -1) {
-          bookElements[i].style.display = "";
-        } else {
-          bookElements[i].style.display = "none";
-        }
-      }
-    }
-  };
-
-  const sortBooksAlphabeticallyAscendingTitle = () => {
-    if (bookList.length === 0) return;
-
-    const bookElements = bookListElement.getElementsByTagName("li");
-    let switching = true;
-    let shouldSwitch = false;
-    let i: number;
-
-    while (switching) {
-      switching = false;
-
-      for (i = 0; i < bookElements.length - 1; i++) {
-        shouldSwitch = false;
-
-        if (
-          bookElements[i].dataset.title!.toUpperCase() >
-          bookElements[i + 1].dataset.title!.toUpperCase()
-        ) {
-          shouldSwitch = true;
+      switch (id) {
+        case "alphabeticallyTitle":
+          util.titleAscending(bookList, bookListElement);
           break;
-        }
-      }
-
-      if (shouldSwitch) {
-        bookElements[i].parentNode?.insertBefore(
-          bookElements[i + 1],
-          bookElements[i]
-        );
-        switching = true;
-      }
-    }
-  };
-
-  const sortBooksAlphabeticallyAscendingAuthor = () => {
-    if (bookList.length === 0) return;
-
-    const bookElements = bookListElement.getElementsByTagName("li");
-    let switching = true;
-    let shouldSwitch = false;
-    let i: number;
-
-    while (switching) {
-      switching = false;
-
-      for (i = 0; i < bookElements.length - 1; i++) {
-        shouldSwitch = false;
-
-        if (
-          bookElements[i].dataset.author!.toUpperCase() >
-          bookElements[i + 1].dataset.author!.toUpperCase()
-        ) {
-          shouldSwitch = true;
+        case "alphabeticallyAuthor":
+          util.authorAscending(bookList, bookListElement);
           break;
-        }
-      }
-
-      if (shouldSwitch) {
-        bookElements[i].parentNode?.insertBefore(
-          bookElements[i + 1],
-          bookElements[i]
-        );
-        switching = true;
       }
     }
-  };
+  });
 </script>
 
 <div class="books">
@@ -131,9 +54,11 @@
       <input
         bind:this={searchBox}
         placeholder="Look for a book..."
-        on:keyup={searchBooks}
+        on:keyup={() => util.searchBooks(searchBox, bookList, bookListElement)}
       />
-      <button class="sort-button" use:useTrigger {...$triggerAttrs}>Sort</button>
+      <button class="sort-button" use:useTrigger {...$menuTriggerAttrs}
+        >Sort</button
+      >
 
       {#if $open}
         <ul transition:fade use:useMenu {...$menuAttrs} class="sort-options">
@@ -142,7 +67,7 @@
               <a
                 class="sort-option-anchor"
                 href="/"
-                {...$itemAttrs(sortOption.id)}>{sortOption.label}</a
+                {...$menuItemAttrs(sortOption.id)}>{sortOption.label}</a
               >
             </li>
           {/each}
@@ -157,7 +82,7 @@
             class="book"
             on:click={() => handleBookSelect(book)}
             on:keydown={() => handleBookSelect(book)}
-            use:useClickOutside={{ handler: () => selectedBook.set(undefined)  }}
+            use:useClickOutside={{ handler: () => selectedBook.set(undefined) }}
           >
             {book.title}
             <br />
