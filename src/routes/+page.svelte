@@ -129,6 +129,16 @@
     selectedBook.set(book);
   };
 
+  const handleBookDeselect = (event: MouseEvent) => {
+    const clickedBook = (event.target as Element)?.closest(".book");
+    const clickedModal = (event.target as Element)?.closest(".modal");
+    const clickedButton = (event.target as Element)?.closest("button");
+
+    if (!clickedBook && !clickedModal && !clickedButton) {
+      selectedBook.set(undefined);
+    }
+  };
+
   // opens the book creation modal
   const handleBookCreate = () => {
     $newBookModalOpen = true;
@@ -225,6 +235,9 @@
   };
 </script>
 
+<!-- to deselect a book in the UI -->
+<svelte:body on:click={handleBookDeselect} />
+
 <main>
   {#if $newBookModalOpen}
     <div
@@ -290,6 +303,6 @@
       />
       <Groups />
     </div>
-    <Books {bookList} {handleBookSelect} {selectedBook} />
+    <Books {bookList} {handleBookSelect} />
   </div>
 </main>
