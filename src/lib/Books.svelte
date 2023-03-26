@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createMenu } from "@grail-ui/svelte";
 
-  import { fade } from "svelte/transition";
+  import { slide } from "svelte/transition";
 
   import * as util from "./bookUtilFunctions";
 
@@ -11,9 +11,16 @@
   let searchBox: HTMLInputElement;
   let bookListElement: HTMLUListElement;
 
-  const sortOptions = [
-    { id: "alphabeticallyTitle", label: "Alphabetically (Title)" },
-    { id: "alphabeticallyAuthor", label: "Alphabetically (Author)" }
+  const sortOptionsAscending = [
+    { id: "titleAsc", label: "Title" },
+    { id: "authorAsc", label: "Author" },
+    { id: "dateAddedAsc", label: "Date Added" }
+  ];
+
+  const sortOptionsDescending = [
+    { id: "titleDesc", label: "Title" },
+    { id: "authorDesc", label: "Author" },
+    { id: "dateAddedDesc", label: "Date Added" }
   ];
 
   // for the sort menu
@@ -33,11 +40,26 @@
       $open = false;
 
       switch (id) {
-        case "alphabeticallyTitle":
-          util.titleAscending(bookList, bookListElement);
+        // ascending
+        case "titleAsc":
+          util.sortByTitleAscending(bookList, bookListElement);
           break;
-        case "alphabeticallyAuthor":
-          util.authorAscending(bookList, bookListElement);
+        case "authorAsc":
+          util.sortByAuthorAscending(bookList, bookListElement);
+          break;
+        case "dateAddedAsc":
+          util.sortByDateAddedAscending(bookList, bookListElement);
+          break;
+
+        // descending
+        case "titleDesc":
+          util.sortByTitleDescending(bookList, bookListElement);
+          break;
+        case "authorDesc":
+          util.sortByAuthorDescending(bookList, bookListElement);
+          break;
+        case "dateAddedDesc":
+          util.sortByDateAddedDescending(bookList, bookListElement);
           break;
       }
     }
@@ -58,8 +80,23 @@
       >
 
       {#if $open}
-        <ul transition:fade use:useMenu {...$menuAttrs} class="sort-options">
-          {#each sortOptions as sortOption (sortOption.id)}
+        <ul transition:slide use:useMenu {...$menuAttrs} class="sort-options">
+          <li class="menu-title">
+            <span>Ascending</span>
+          </li>
+          {#each sortOptionsAscending as sortOption (sortOption.id)}
+            <li class="sort-option">
+              <a
+                class="sort-option-anchor"
+                href="/"
+                {...$menuItemAttrs(sortOption.id)}>{sortOption.label}</a
+              >
+            </li>
+          {/each}
+          <li class="menu-title">
+            <span>Descending</span>
+          </li>
+          {#each sortOptionsDescending as sortOption (sortOption.id)}
             <li class="sort-option">
               <a
                 class="sort-option-anchor"
@@ -74,7 +111,12 @@
 
     <ul bind:this={bookListElement}>
       {#each bookList as book}
-        <li data-title={book.title} data-author={book.author}>
+        <li
+          data-title={book.title}
+          data-author={book.author}
+          data-dateadded={book.date_added}
+          transition:slide
+        >
           <div
             class="book"
             on:click={() => handleBookSelect(book)}
@@ -113,6 +155,7 @@
 
     .book-list-actions {
       display: flex;
+      align-items: center;
       width: 90%;
 
       input {
@@ -128,14 +171,23 @@
       .sort-options {
         display: flex;
         flex-direction: column;
-        background: $primary-color;
+        text-align: center;
+        background: #161616e1;
         width: auto;
         padding: 10px;
         border-radius: 5px;
         border: 1px solid $accent-color;
 
+        .menu-title {
+          font-size: 14px;
+          padding: 0px 10px 0px 10px;
+          color: #d0d0d0de;
+          margin: 15px 5px 15px 5px;
+        }
+
         .sort-option {
-          margin: 10px 0px 10px 0px;
+          margin: 10px 5px 10px 5px;
+          font-size: 18px;
 
           .sort-option-anchor {
             transition: all 300ms ease;
@@ -143,6 +195,7 @@
             border-radius: 10px;
             text-decoration: none;
             color: #ffffffde;
+            width: 80%;
 
             &:hover {
               background-color: $secondary-color;
