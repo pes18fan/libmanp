@@ -116,8 +116,8 @@
       console.error(`Error while watching library file for changes: ${error}`);
     }
 
+    // to set responsive design as per window height
     let vh = window.innerHeight * 0.01;
-    // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   });
 
@@ -127,16 +127,6 @@
 
   const handleBookSelect = (book: Book) => {
     selectedBook.set(book);
-  };
-
-  const handleBookDeselect = (event: MouseEvent) => {
-    const clickedBook = (event.target as Element)?.closest(".book");
-    const clickedModal = (event.target as Element)?.closest(".modal");
-    const clickedButton = (event.target as Element)?.closest("button");
-
-    if (!clickedBook && !clickedModal && !clickedButton) {
-      selectedBook.set(undefined);
-    }
   };
 
   // opens the book creation modal
@@ -235,9 +225,6 @@
   };
 </script>
 
-<!-- to deselect a book in the UI -->
-<svelte:body on:click={handleBookDeselect} />
-
 <main>
   {#if $newBookModalOpen}
     <div
@@ -303,6 +290,6 @@
       />
       <Groups />
     </div>
-    <Books {bookList} {handleBookSelect} />
+    <Books {bookList} {handleBookSelect} {selectedBook} />
   </div>
 </main>

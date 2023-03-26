@@ -1,6 +1,12 @@
 <script lang="ts">
+  import { useClickOutside } from "@grail-ui/svelte";
   import { createMenu } from "@grail-ui/svelte";
+  import type { Writable } from "svelte/store";
   import { fade } from "svelte/transition";
+
+  export let bookList: Array<Book> = [];
+  export let handleBookSelect: (book: Book) => void;
+  export let selectedBook: Writable<Book | undefined>;
 
   const sortOptions = [
     { id: "alphabeticallyTitle", label: "Alphabetically (Title)" },
@@ -27,9 +33,6 @@
         }
       }
     });
-
-  export let bookList: Array<Book> = [];
-  export let handleBookSelect: (book: Book) => void;
 
   let searchBox: HTMLInputElement;
   let bookListElement: HTMLUListElement;
@@ -154,6 +157,7 @@
             class="book"
             on:click={() => handleBookSelect(book)}
             on:keydown={() => handleBookSelect(book)}
+            use:useClickOutside={{ handler: () => selectedBook.set(undefined)  }}
           >
             {book.title}
             <br />
