@@ -75,10 +75,10 @@
       {
         "label": "main",
         "fullscreen": false,
-        "height": 720,
         "resizable": true,
         "title": "libmanp",
-        "width": 1024
+        "width": 1024,
+        "height": 720
       }
     ]
   }
