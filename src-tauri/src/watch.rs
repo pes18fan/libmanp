@@ -1,5 +1,5 @@
 use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
-use notify_debouncer_mini::{new_debouncer, DebounceEventResult};
+use notify_debouncer_mini::{new_debouncer, DebounceEventResult, DebouncedEventKind};
 use tauri::Window;
 
 use std::path::Path;
@@ -30,16 +30,19 @@ pub fn watch(window: Window, file_path: String) {
             None,
             move |res: DebounceEventResult| match res {
                 Ok(events) => {
-                    events.iter().for_each(|e| {
-                        println!("Event {:?} for {:?}", e.kind, e.path);
-                        window
-                            .emit(
-                                "file-change",
-                                Placeholder {
-                                    msg: "placeholder".into(),
-                                },
-                            )
-                            .unwrap();
+                    events.iter().for_each(|e| match e.kind {
+                        DebouncedEventKind::Any => {
+                            println!("Event {:?} for {:?}", e.kind, e.path);
+                            window
+                                .emit(
+                                    "file-change",
+                                    Placeholder {
+                                        msg: "placeholder".into(),
+                                    },
+                                )
+                                .unwrap();
+                        }
+                        _ => {}
                     });
                 }
                 Err(errs) => {
