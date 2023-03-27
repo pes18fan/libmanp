@@ -4,17 +4,17 @@
 )]
 
 mod add_book;
-mod watch;
-mod structs;
-mod edit_book;
 mod annihilate_book;
+mod edit_book;
+mod structs;
+mod watch;
 
-use tauri::{CustomMenuItem, Menu, Submenu};
 use tauri::api::dialog::message;
+use tauri::{CustomMenuItem, Menu, Submenu};
 
 use crate::add_book::add_book;
-use crate::edit_book::edit_book;
 use crate::annihilate_book::annihilate_book;
+use crate::edit_book::edit_book;
 use crate::watch::watch;
 
 // creates the main menu
@@ -27,9 +27,7 @@ pub fn create_menu() -> Menu {
     let file = Submenu::new("File", Menu::new().add_item(quit));
     let help = Submenu::new("Help", Menu::new().add_item(about));
 
-    Menu::new()
-        .add_submenu(file)
-        .add_submenu(help)
+    Menu::new().add_submenu(file).add_submenu(help)
 }
 
 fn main() {

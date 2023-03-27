@@ -1,5 +1,5 @@
-use std::fs::write;
 use nano_id::base64;
+use std::fs::write;
 
 use crate::structs::{Book, Library};
 
@@ -19,7 +19,7 @@ pub fn add_book(existing_json: &str, file_path: &str, book_data: Book) -> AddBoo
         title: book_data.title,
         author: book_data.author,
         uid: base64::<24>(),
-        date_added: book_data.date_added
+        date_added: book_data.date_added,
     });
 
     let j = serde_json::to_string(&b).expect("Error converting struct to json");

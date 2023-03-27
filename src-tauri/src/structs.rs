@@ -10,5 +10,5 @@ pub struct Book {
     pub title: String,
     pub author: String,
     pub uid: String,
-    pub date_added: String // an ISO 8601 date string
+    pub date_added: String, // an ISO 8601 date string
 }
