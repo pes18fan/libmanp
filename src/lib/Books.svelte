@@ -160,6 +160,10 @@
 
       input {
         @include inputStyles;
+
+        &::placeholder {
+          color: #dadadade;
+        }
       }
 
       .sort-button {
