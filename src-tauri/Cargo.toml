@@ -1,10 +1,10 @@
 [package]
 name = "libmanp"
 version = "0.1.0"
-description = "libman but better"
+description = "library manager"
 authors = ["pes18fan"]
-license = "Unlicense"
-repository = ""
+license = "GNU General Public License 3.0"
+repository = "https://www.github.com/pes18fan/libmanp/"
 default-run = "libmanp"
 edition = "2021"
 rust-version = "1.59"
