@@ -10,6 +10,12 @@ Basic desktop app for managing a book library. Successor to [libman](https://www
 - Sorting the book list in various ways
 - Searching through the list
 
+### screenshots
+
+![screenshot 1](/assets/screenshots/libmanp_01.png)
+![screenshot 2](/assets/screenshots/libmanp_02.png)
+![screenshot 3](/assets/screenshots/libmanp_03.png)
+
 ## development
 
 libmanp is built with Tauri. Follow [these instructions](https://tauri.app/v1/guides/getting-started/prerequisites/) to install the prerequisites for Tauri on your system, which includes Rust. You also need [Nodejs](https://nodejs.dev) and [yarn](https://yarnpkg.com).
