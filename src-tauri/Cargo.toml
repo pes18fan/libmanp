@@ -1,6 +1,6 @@
 [package]
 name = "libmanp"
-version = "0.1.0"
+version = "0.1.1"
 description = "library manager"
 authors = ["pes18fan"]
 license = "GNU General Public License 3.0"
