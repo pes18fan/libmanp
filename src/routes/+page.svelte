@@ -19,7 +19,6 @@
   // components
   import BookActions from "$lib/BookActions.svelte";
   import Books from "$lib/Books.svelte";
-  import Groups from "$lib/Groups.svelte";
 
   // for the modals
   import { createModal } from "@grail-ui/svelte";
@@ -294,15 +293,12 @@
   {/if}
 
   <div class="container">
-    <div class="sideInfo">
-      <BookActions
-        {handleBookCreate}
-        {handleBookEdit}
-        {handleBookAnnihilate}
-        {selectedBook}
-      />
-      <Groups />
-    </div>
+    <BookActions
+      {handleBookCreate}
+      {handleBookEdit}
+      {handleBookAnnihilate}
+      {selectedBook}
+    />
     <Books {bookList} {handleBookSelect} />
   </div>
 </main>

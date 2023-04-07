@@ -147,6 +147,7 @@
     border: 2px solid $accent-color;
     border-radius: 5px;
     margin: 10px;
+    padding: 10px;
 
     h1,
     p {

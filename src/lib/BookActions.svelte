@@ -31,10 +31,13 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    max-height: 50%;
 
     h1, h2, p {
       margin: 10px;
+    }
+
+    button {
+      padding: 20px;
     }
   }
 </style>
