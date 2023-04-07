@@ -35,5 +35,6 @@
   "dependencies": {
     "@tauri-apps/api": "^1.2.0"
   },
-  "license": "GNU General Public License 3.0"
+  "license": "GNU General Public License 3.0",
+  "packageManager": "yarn@3.5.0"
 }
